@@ -1,13 +1,553 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ================= META ================= -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>daily-work-ts</title>
+    <title>Daily Work</title>
+
+    <!-- ================= GOOGLE FONTS ================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap"
+      rel="stylesheet" />
+
+    <!-- ================= LUCIDE ICONS ================= -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- ================= CSS ================= -->
+    <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div class="container">
+      <!-- ================= HEADER ================= -->
+      <header class="header">
+        <div id="header-content">
+          <h1 id="logo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              data-lucide="sparkles"
+              aria-hidden="true"
+              class="lucide-sparkles">
+              <path
+                d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path>
+              <path d="M20 2v4"></path>
+              <path d="M22 4h-4"></path>
+              <circle cx="4" cy="20" r="2"></circle>
+            </svg>
+            Daily Work
+          </h1>
+          <p>Track your progress, one day at a time</p>
+        </div>
+      </header>
+
+      <!-- ================= TABS ================= -->
+      <nav class="tabs">
+        <button class="tab active" id="button1" data-tab="today">
+          <svg
+            class="button-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true">
+            <path d="M13 21h8" />
+            <path
+              d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+          </svg>
+          <span>Today</span>
+        </button>
+
+        <button class="tab" id="button2" data-tab="overview">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-lucide="calendar"
+            aria-hidden="true"
+            class="button-icon">
+            <path d="M8 2v4"></path>
+            <path d="M16 2v4"></path>
+            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+            <path d="M3 10h18"></path>
+          </svg>
+          <span>Overview</span>
+        </button>
+
+        <button class="tab" id="button3" data-tab="entries">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-lucide="list"
+            aria-hidden="true"
+            class="button-icon">
+            <path d="M3 5h.01"></path>
+            <path d="M3 12h.01"></path>
+            <path d="M3 19h.01"></path>
+            <path d="M8 5h13"></path>
+            <path d="M8 12h13"></path>
+            <path d="M8 19h13"></path>
+          </svg>
+          <span>Entries</span>
+        </button>
+      </nav>
+
+      <!-- ================= TODAY SECTION ================= -->
+      <div id="today-section" class="tab-content active">
+        <h2>Log Today's Work</h2>
+
+        <!-- ===== FORM CARD ===== -->
+        <div class="form-card">
+          <!-- ===== ENTRY FORM ===== -->
+          <form id="entry-form">
+            <!-- --- DATE FIELD --- -->
+            <div class="form-group">
+              <div class="form-label">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  data-lucide="calendar"
+                  aria-hidden="true"
+                  class="lucide lucide-calendar label-icon">
+                  <path d="M8 2v4"></path>
+                  <path d="M16 2v4"></path>
+                  <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                  <path d="M3 10h18"></path>
+                </svg>
+                <label for="date">Date <span class="required">*</span></label>
+              </div>
+              <input type="date" id="date" name="date" />
+              <span id="date-error" class="catch-error"></span>
+            </div>
+
+            <!-- --- HOURS FIELD --- -->
+            <div class="form-group">
+              <div class="form-label">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  data-lucide="clock"
+                  aria-hidden="true"
+                  class="lucide lucide-clock label-icon">
+                  <path d="M12 6v6l4 2"></path>
+                  <circle cx="12" cy="12" r="10"></circle>
+                </svg>
+                <label for="number">
+                  Hours worked <span class="required">*</span>
+                </label>
+              </div>
+              <input
+                id="number"
+                type="number"
+                name="number"
+                min="0.5"
+                max="24"
+                step="0.5"
+                placeholder="e.g., 8" />
+              <span id="hours-error" class="catch-error"></span>
+            </div>
+
+            <!-- --- INTENSITY FIELD --- -->
+            <div class="form-group">
+              <div class="form-label">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  data-lucide="zap"
+                  aria-hidden="true"
+                  class="lucide lucide-zap label-icon">
+                  <path
+                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
+                </svg>
+                <label>Intensity</label>
+              </div>
+
+              <div class="buttons">
+                <button type="button" class="intensity-button">
+                  <span class="tab-number">1</span>
+                  <span class="tab-text">Light</span>
+                </button>
+                <button type="button" class="intensity-button">
+                  <span class="tab-number">2</span>
+                  <span class="tab-text">Easy</span>
+                </button>
+                <button type="button" class="intensity-button">
+                  <span class="tab-number">3</span>
+                  <span class="tab-text">Moderate</span>
+                </button>
+                <button type="button" class="intensity-button">
+                  <span class="tab-number">4</span>
+                  <span class="tab-text">Intense</span>
+                </button>
+                <button type="button" class="intensity-button">
+                  <span class="tab-number">5</span>
+                  <span class="tab-text">Maximum</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- --- CHALLENGE FIELD --- -->
+            <div class="form-group">
+              <div class="form-label">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  data-lucide="target"
+                  aria-hidden="true"
+                  class="lucide lucide-target label-icon">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="6"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                <label for="text">
+                  Today's challenge <span class="required">*</span>
+                </label>
+              </div>
+              <input
+                type="text"
+                id="text"
+                name="text"
+                placeholder="What was the main challenge today?" />
+              <span id="challenge-error" class="catch-error"></span>
+            </div>
+
+            <!-- --- NOTE FIELD --- -->
+            <div class="form-group">
+              <div class="form-label">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  data-lucide="message-circle"
+                  aria-hidden="true"
+                  class="lucide lucide-message-circle label-icon">
+                  <path
+                    d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path>
+                </svg>
+                <label for="note">Personal note</label>
+              </div>
+              <textarea
+                id="note"
+                name="note"
+                rows="5"
+                placeholder="How are you feeling? Any reflections?"></textarea>
+              <span id="note-error" class="catch-error"></span>
+            </div>
+
+            <!-- --- SUBMIT BUTTON + MESSAGES --- -->
+            <div class="form-group">
+              <button type="submit" class="button-form">
+                <span class="btn-spinner"></span>
+                <svg ... class="lucide lucide-save label-icon-button">...</svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  data-lucide="save"
+                  aria-hidden="true"
+                  class="lucide lucide-save label-icon-button">
+                  <path
+                    d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
+                  <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path>
+                  <path d="M7 3v4a1 1 0 0 0 1 1h7"></path>
+                </svg>
+                <span>Save Entry</span>
+              </button>
+
+              <div id="success-message">Entry created successfully!</div>
+              <div id="server-error"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= OVERVIEW SECTION ================= -->
+      <div id="overview-section" class="tab-content">
+        <div class="row">
+          <h2>Monthly Overview</h2>
+          <p id="paragraph-section">Your work pattern at a glance</p>
+
+          <!-- ===== MONTH CAROUSEL ===== -->
+          <div class="carousel" id="month-carousel">
+            <button id="prev-month">
+              <i data-lucide="chevron-left"></i>
+            </button>
+
+            <span id="current-month"></span>
+
+            <button id="next-month">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- ===== HEATMAP ===== -->
+          <div class="heatmap-container">
+            <div class="heatmap-legend">
+              <span>Less</span>
+              <div class="legend-colors">
+                <span id="first-level" class="color-box"></span>
+                <span id="second-level" class="color-box"></span>
+                <span id="third-level" class="color-box"></span>
+                <span id="four-level" class="color-box"></span>
+                <span id="five-level" class="color-box"></span>
+              </div>
+              <span>More</span>
+            </div>
+
+            <div class="heatmap-box">
+              <!-- --- EMPTY STATE --- -->
+              <div class="heatmap-empty-state">
+                <div class="heatmap-empty-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    data-lucide="inbox"
+                    aria-hidden="true"
+                    class="lucide lucide-inbox empty-icon">
+                    <polyline
+                      points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                    <path
+                      d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                  </svg>
+                </div>
+                <h2 class="heatmap-empty-title">No data yet</h2>
+                <p class="heatmap-empty">
+                  Start logging your daily work to see your progress here.
+                </p>
+              </div>
+
+              <!-- --- HEATMAP GRID --- -->
+              <div class="heatmap-grid"></div>
+            </div>
+
+            <!-- --- TOOLTIP --- -->
+            <div class="heatmap-tooltip"></div>
+          </div>
+        </div>
+
+        <!-- ===== STATS ===== -->
+        <div class="stats-section">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i data-lucide="clock-3"></i>
+            </div>
+            <div class="stat-content">
+              <span id="total-hours" class="stat-value"></span>
+              <p class="stat-label">Total hours</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i data-lucide="calendar-days"></i>
+            </div>
+            <div class="stat-content">
+              <span id="days-logged" class="stat-value"></span>
+              <p class="stat-label">Days logged</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i data-lucide="trending-up"></i>
+            </div>
+            <div class="stat-content">
+              <span id="avg-intensity" class="stat-value"></span>
+              <p class="stat-label">Avg intensity</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= ENTRIES SECTION ================= -->
+      <div id="entries-section" class="tab-content">
+        <div class="entries-header">
+          <h2>Work Entries</h2>
+
+          <!-- ===== ENTRIES TOGGLE ===== -->
+          <div class="entries-toggle">
+            <button class="entries-button active" id="this-month">
+              This Month
+            </button>
+            <button class="entries-button" id="all-entries">All Entries</button>
+          </div>
+        </div>
+
+        <!-- ===== LOADING STATE ===== -->
+        <span id="entries-loading" style="display: none">
+          Loading entries...
+        </span>
+
+        <!-- ===== EMPTY STATE ===== -->
+        <div id="empty-state-message" style="display: none">
+          <div class="empty-icon">
+            <i data-lucide="inbox"></i>
+          </div>
+          <span id="no-entries">No entries found</span>
+          <span id="start-entries">Start logging your work...</span>
+        </div>
+
+        <!-- ===== ENTRIES LIST ===== -->
+        <div id="entries-list"></div>
+      </div>
+
+      <!-- ================= ENTRY DETAILS MODAL ================= -->
+      <div id="entry-details-modal" class="modal-overlay" style="display: none">
+        <div class="modal-box">
+          <button id="close-entry-modal" class="modal-close" type="button">
+            <i data-lucide="x"></i>
+          </button>
+          <!-- ================= DELETE CONFIRM MODAL ================= -->
+          <div
+            id="delete-confirm-modal"
+            class="modal-overlay"
+            style="display: none">
+            <div class="modal-box delete-confirm-box">
+              <h2>Delete entry</h2>
+              <p class="delete-confirm-text">
+                Are you sure you want to delete this entry?
+              </p>
+
+              <div class="modal-actions">
+                <button id="confirm-delete-btn" type="button">Delete</button>
+                <button id="cancel-delete-btn" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <h2>Entry Details</h2>
+
+          <!-- ===== MODAL DATE ===== -->
+          <div class="form-group">
+            <div class="form-label">
+              <i data-lucide="calendar" class="label-icon"></i>
+              <label>Date</label>
+            </div>
+            <input type="date" id="modal-date" disabled />
+          </div>
+
+          <!-- ===== MODAL HOURS ===== -->
+          <div class="form-group">
+            <div class="form-label">
+              <i data-lucide="clock" class="label-icon"></i>
+              <label>Hours worked</label>
+            </div>
+            <input type="number" id="modal-hours" disabled />
+          </div>
+
+          <!-- ===== MODAL INTENSITY ===== -->
+          <div class="form-group">
+            <div class="form-label">
+              <i data-lucide="zap" class="label-icon"></i>
+              <label>Intensity</label>
+            </div>
+            <input type="text" id="modal-intensity" disabled />
+          </div>
+
+          <!-- ===== MODAL CHALLENGE ===== -->
+          <div class="form-group">
+            <div class="form-label">
+              <i data-lucide="target" class="label-icon"></i>
+              <label>Today's challenge</label>
+            </div>
+            <input type="text" id="modal-challenge" disabled />
+          </div>
+
+          <!-- ===== MODAL NOTE ===== -->
+          <div class="form-group">
+            <div class="form-label">
+              <i data-lucide="message-circle" class="label-icon"></i>
+              <label>Personal note</label>
+            </div>
+            <textarea id="modal-note" rows="5" disabled></textarea>
+          </div>
+
+          <!-- ===== MODAL ACTIONS ===== -->
+          <div class="modal-actions">
+            <button id="edit-entry-btn" type="button">Edit</button>
+            <button id="delete-entry-btn" type="button">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script type="module" src="./state/test.ts"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>
