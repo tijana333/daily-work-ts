@@ -1,6 +1,16 @@
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
-type Entry
-export async function submitEntry(entry) {
+type EntryInput = {
+  note?: string;
+};
+
+type ApiResponse<T> = {
+  status: number;
+  data: T;
+};
+
+export async function submitEntry(
+  entry: EntryInput,
+): Promise<ApiResponse<any>> {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -13,7 +23,10 @@ export async function submitEntry(entry) {
   };
 }
 
-export async function updateEntry(id, entry) {
+export async function updateEntry(
+  id: string,
+  entry: EntryInput,
+): Promise<ApiResponse<any>> {
   const response = await fetch(API_URL + "/" + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -26,7 +39,9 @@ export async function updateEntry(id, entry) {
   };
 }
 
-export async function loadEntryByDate(selectedDate) {
+export async function loadEntryByDate(
+  selectedDate: string,
+): Promise<ApiResponse<any>> {
   const response = await fetch(API_URL + "?date=" + selectedDate);
   const data = await response.json();
   return {
@@ -34,7 +49,7 @@ export async function loadEntryByDate(selectedDate) {
     data,
   };
 }
-export async function loadEntries(url) {
+export async function loadEntries(url: string): Promise<ApiResponse<any>> {
   const response = await fetch(url);
   const data = await response.json();
   return {
