@@ -1,5 +1,5 @@
 import { loadEntries as loadEntriesApi } from "./api/api";
-import { startEditingEntry, initForm } from "./features/form";
+import { initForm } from "./features/form";
 import {
   showEntriesLoading,
   hideEntriesLoading,
@@ -7,8 +7,6 @@ import {
   renderEntries,
   initEntries,
 } from "./features/entries";
-import { initModal, openEntryModal } from "./features/modal";
-import { initHeatmap, refreshHeatmap } from "./features/heatmap";
 import { state } from "./state/state";
 
 type Entry = {
@@ -26,10 +24,6 @@ type EntriesApiData = {
 
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
 
-/* ========================================
-ENTRIES LOADING
-Fetch and render all entries
-=========================================== */
 export async function loadEntries(): Promise<void> {
   showEntriesLoading();
 
@@ -55,35 +49,14 @@ export async function loadEntries(): Promise<void> {
 
 initEntries({
   onOpenModal(entry: Entry) {
-    openEntryModal(entry);
-  },
-});
-
-initModal({
-  onEdit(entry: Entry) {
-    startEditingEntry(entry);
-  },
-
-  async onDelete(entry: Entry) {
-    const response = await fetch(`${API_URL}/${entry._id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error("Delete failed");
-    }
-
-    await loadEntries();
-    refreshHeatmap();
+    console.log("Clicked entry:", entry);
   },
 });
 
 initForm({
   async onSuccess() {
     await loadEntries();
-    refreshHeatmap();
   },
 });
 
-initHeatmap({ apiUrl: API_URL });
 void loadEntries();
