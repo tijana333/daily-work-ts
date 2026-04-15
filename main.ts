@@ -1,6 +1,5 @@
 import { loadEntries as loadEntriesApi } from "./api/api";
 import { startEditingEntry, initForm } from "./features/form";
-import { initTabs, switchToTab } from "./features/tabs";
 import {
   showEntriesLoading,
   hideEntriesLoading,
@@ -26,17 +25,6 @@ type EntriesApiData = {
 };
 
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
-
-const thisMonthBtn = document.getElementById(
-  "this-month",
-) as HTMLElement | null;
-const allEntriesBtn = document.getElementById(
-  "all-entries",
-) as HTMLElement | null;
-
-if (!thisMonthBtn || !allEntriesBtn) {
-  throw new Error("Missing filter buttons");
-}
 
 /* ========================================
 ENTRIES LOADING
@@ -73,7 +61,6 @@ initEntries({
 
 initModal({
   onEdit(entry: Entry) {
-    switchToTab("today");
     startEditingEntry(entry);
   },
 
@@ -98,20 +85,5 @@ initForm({
   },
 });
 
-initTabs();
 initHeatmap({ apiUrl: API_URL });
 void loadEntries();
-
-thisMonthBtn.addEventListener("click", function () {
-  state.currentView = "month";
-  thisMonthBtn.classList.add("active");
-  allEntriesBtn.classList.remove("active");
-  void loadEntries();
-});
-
-allEntriesBtn.addEventListener("click", function () {
-  state.currentView = "all";
-  allEntriesBtn.classList.add("active");
-  thisMonthBtn.classList.remove("active");
-  void loadEntries();
-});
