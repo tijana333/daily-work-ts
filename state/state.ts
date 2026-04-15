@@ -1,11 +1,15 @@
-type Entry = {
-  id: string;
+export type Entry = {
+  _id: string;
+  date: string;
+  hours: number;
+  challenge: string;
+  intensity: number | string;
   note?: string;
 };
 
-type ViewType = "month" | "all";
+export type ViewType = "month" | "all";
 
-interface AppState {
+export interface AppState {
   selectedEntry: Entry | null;
   editingEntryId: string | null;
   intensity: number;
