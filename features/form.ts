@@ -1,9 +1,15 @@
 import {
   submitEntry as submitEntryApi,
   updateEntry as updateEntryApi,
-} from "../api/api.ts";
+} from "../api/api";
 
-import { state } from "../state/state.ts";
+import { state } from "../state/state";
+
+import {
+  validateDate,
+  validateHours,
+  validateChallenge,
+} from "../utils/validators";
 
 type EntryInput = {
   date: string;
