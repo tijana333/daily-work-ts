@@ -1,5 +1,5 @@
 import { loadEntries as loadEntriesApi } from "./api/api";
-import { initForm } from "./features/form";
+import { initForm, startEditingEntry } from "./features/form";
 import {
   showEntriesLoading,
   hideEntriesLoading,
@@ -7,6 +7,7 @@ import {
   renderEntries,
   initEntries,
 } from "./features/entries";
+import { initTabs, switchToTab } from "./features/tabs";
 import { initModal, openEntryModal } from "./features/modal";
 import { state } from "./state/state";
 
@@ -20,7 +21,9 @@ type Entry = {
 };
 
 type EntriesApiData = {
+  success: boolean;
   data: Entry[];
+  count: number;
 };
 
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
@@ -39,10 +42,8 @@ export async function loadEntries(): Promise<void> {
     }
 
     const result = await loadEntriesApi(url);
-    console.log("API RESULT:", result);
-
-    const entries = (result.data as EntriesApiData).data;
-    console.log("ENTRIES FOR RENDER:", entries);
+    const responseData = result.data as EntriesApiData;
+    const entries = responseData.data;
 
     hideEntriesLoading();
     renderEntries(entries);
@@ -59,12 +60,11 @@ initEntries({
 
 initModal({
   onEdit(entry: Entry) {
-    console.log("EDIT ENTRY:", entry);
+    switchToTab("today");
+    startEditingEntry(entry);
   },
 
   async onDelete(entry: Entry) {
-    console.log("DELETE ENTRY:", entry);
-
     const response = await fetch(`${API_URL}/${entry._id}`, {
       method: "DELETE",
     });
@@ -80,7 +80,9 @@ initModal({
 initForm({
   async onSuccess() {
     await loadEntries();
+    switchToTab("entries");
   },
 });
 
+initTabs();
 void loadEntries();
