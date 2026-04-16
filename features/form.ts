@@ -4,11 +4,7 @@ import {
 } from "../api/api";
 
 import { state } from "../state/state";
-import {
-  validateDate,
-  validateHours,
-  validateChallenge,
-} from "../features/validators";
+import { validateDate, validateHours, validateChallenge } from ".validators";
 type EntryInput = {
   date: string;
   hours: number;
