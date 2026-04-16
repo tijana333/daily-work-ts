@@ -28,53 +28,66 @@ const modalDate = document.getElementById(
 const modalHours = document.getElementById(
   "modal-hours",
 ) as HTMLInputElement | null;
-const modalIntensity = document.getElementById("modal-intensity") HTMLInputElement | null;
-const modalChallenge = document.getElementById("modal-challenge") HTMLInputElement | null ;
-const modalNote = document.getElementById("modal-note") as HTMLTextAreaElement | null;
-const editBtn = document.getElementById("edit-entry-btn")as HTMLButtonElement | null;
-const deleteConfirmModal = document.getElementById("delete-confirm-modal") as HTMLElement | null;
-const cancelDeleteBtn = document.getElementById("cancel-delete-btn")as HTMLButtonElement | null;
-const confirmDeleteBtn = document.getElementById("confirm-delete-btn")as HTMLButtonElement | null;
-
+const modalIntensity = document.getElementById(
+  "modal-intensity",
+) as HTMLInputElement | null;
+const modalChallenge = document.getElementById(
+  "modal-challenge",
+) as HTMLInputElement | null;
+const modalNote = document.getElementById(
+  "modal-note",
+) as HTMLTextAreaElement | null;
+const editBtn = document.getElementById(
+  "edit-entry-btn",
+) as HTMLButtonElement | null;
+const deleteConfirmModal = document.getElementById(
+  "delete-confirm-modal",
+) as HTMLElement | null;
+const cancelDeleteBtn = document.getElementById(
+  "cancel-delete-btn",
+) as HTMLButtonElement | null;
+const confirmDeleteBtn = document.getElementById(
+  "confirm-delete-btn",
+) as HTMLButtonElement | null;
 
 if (
-    !entryDetailsModal ||
-    !closeEntryModalButton ||
-    !deteleEntryButton ||
-    !modalDate ||
-    !modalHours ||
-    !modalIntensity ||
-    !modalChallenge ||
-    !modalNote ||
-    !editBtn ||
-    !deteleConfirmModal ||
-    !cancelDeleteBtn ||
-    !confirmDeleteBtn 
+  !entryDetailsModal ||
+  !closeEntryModalButton ||
+  !deleteEntryButton ||
+  !modalDate ||
+  !modalHours ||
+  !modalIntensity ||
+  !modalChallenge ||
+  !modalNote ||
+  !editBtn ||
+  !deleteConfirmModal ||
+  !cancelDeleteBtn ||
+  !confirmDeleteBtn
 ) {
-    throw new Error ("Missing required modal DOM elements")
+  throw new Error("Missing required modal DOM elements");
 }
 
-let onEditHandler: ((entry:Entry) => void) | null= null;
-let onDeleteHandler: ((entry: Entry) => void | Promise <void>) | null = null;
+let onEditHandler: ((entry: Entry) => void) | null = null;
+let onDeleteHandler: ((entry: Entry) => void | Promise<void>) | null = null;
 
-export function openEntryModal(entry:Entry):void {
+export function openEntryModal(entry: Entry): void {
   state.selectedEntry = entry;
 
   modalDate.value = entry.date;
-  modalHours.value = entry.hours;
-  modalIntensity.value = entry.intensity;
+  modalHours.value = String(entry.hours);
+  modalIntensity.value = String(entry.intensity);
   modalChallenge.value = entry.challenge;
   modalNote.value = entry.note || "";
 
   entryDetailsModal.style.display = "flex";
 }
 
-export function closeEntryModal() :void {
+export function closeEntryModal(): void {
   entryDetailsModal.style.display = "none";
   state.selectedEntry = null;
 }
 
-export function initModal({ onEdit, onDelete } :InitModalOptions): void  {
+export function initModal({ onEdit, onDelete }: InitModalOptions): void {
   onEditHandler = onEdit ?? null;
   onDeleteHandler = onDelete ?? null;
 
