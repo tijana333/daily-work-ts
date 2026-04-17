@@ -70,8 +70,8 @@ initEntries({
 // ==============================
 initModal({
   onEdit(entry: Entry) {
-    switchToTab("today"); /
-    startEditingEntry(entry); 
+    switchToTab("today");
+    startEditingEntry(entry);
   },
 
   async onDelete(entry: Entry) {
