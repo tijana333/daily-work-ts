@@ -9,6 +9,7 @@ import {
 } from "./features/entries";
 import { initTabs, switchToTab } from "./features/tabs";
 import { initModal, openEntryModal } from "./features/modal";
+import { initHeatmap, refreshHeatmap } from "./features/heatmap";
 import { state } from "./state/state";
 
 type Entry = {
@@ -28,6 +29,9 @@ type EntriesApiData = {
 
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
 
+// ==============================
+// LOAD ENTRIES
+// ==============================
 export async function loadEntries(): Promise<void> {
   showEntriesLoading();
 
@@ -52,16 +56,22 @@ export async function loadEntries(): Promise<void> {
   }
 }
 
+// ==============================
+// INIT ENTRIES (klik na karticu)
+// ==============================
 initEntries({
   onOpenModal(entry: Entry) {
     openEntryModal(entry);
   },
 });
 
+// ==============================
+// INIT MODAL
+// ==============================
 initModal({
   onEdit(entry: Entry) {
-    switchToTab("today");
-    startEditingEntry(entry);
+    switchToTab("today"); /
+    startEditingEntry(entry); 
   },
 
   async onDelete(entry: Entry) {
@@ -74,15 +84,34 @@ initModal({
     }
 
     await loadEntries();
+    refreshHeatmap(); //  update overview
   },
 });
 
+// ==============================
+// INIT FORM
+// ==============================
 initForm({
   async onSuccess() {
-    await loadEntries();
-    switchToTab("entries");
+    await loadEntries(); // 🔥 refresh liste
+    refreshHeatmap(); // 🔥 refresh overview
+    switchToTab("entries"); // 🔥 vrati na listu
   },
 });
 
+// ==============================
+// INIT TABS
+// ==============================
 initTabs();
+
+// ==============================
+// INIT HEATMAP (OVERVIEW)
+// ==============================
+initHeatmap({
+  apiUrl: API_URL,
+});
+
+// ==============================
+// INITIAL LOAD
+// ==============================
 void loadEntries();

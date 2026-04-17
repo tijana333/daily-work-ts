@@ -7,7 +7,7 @@ type Entry = {
   note?: string;
 };
 
-type initHeatmapOptions = {
+type InitHeatmapOptions = {
   apiUrl: string;
 };
 
@@ -17,13 +17,13 @@ type HeatmapApiResponse = {
   count?: number;
 };
 
-type HeatmapDayElement = HTMLDiveElement & {
+type HeatmapDayElement = HTMLDivElement & {
   entryData?: Entry;
 };
 
 let refreshHeatmapData: (() => void) | null = null;
 
-export function initHeatmap({ apiUrl }: initHeatmapOptions): void {
+export function initHeatmap({ apiUrl }: InitHeatmapOptions): void {
   const currentMonthElement = document.getElementById(
     "current-month",
   ) as HTMLElement | null;
@@ -185,8 +185,8 @@ export function initHeatmap({ apiUrl }: initHeatmapOptions): void {
       const averageIntensity =
         entries.length > 0 ? totalIntensity / daysLoggedCount : 0;
 
-      totalHours.textContent = totalHoursSum;
-      daysLogged.textContent = daysLoggedCount;
+      totalHours.textContent = String(totalHoursSum);
+      daysLogged.textContent = String(daysLoggedCount);
       avgIntensity.textContent = averageIntensity.toFixed(1);
     } catch (error) {
       emptyState.style.display = "block";
@@ -202,7 +202,7 @@ export function initHeatmap({ apiUrl }: initHeatmapOptions): void {
   function updateHeatmapMonth(): void {
     renderMonth();
     renderHeatmap();
-    loadHeatmapData();
+    void loadHeatmapData();
   }
 
   previousMonthButton.addEventListener("click", function () {
