@@ -29,9 +29,17 @@ type EntriesApiData = {
 
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
 
-// ==============================
-// LOAD ENTRIES
-// ==============================
+const thisMonthBtn = document.getElementById(
+  "this-month",
+) as HTMLButtonElement | null;
+const allEntriesBtn = document.getElementById(
+  "all-entries",
+) as HTMLButtonElement | null;
+
+if (!thisMonthBtn || !allEntriesBtn) {
+  throw new Error("Missing entries filter buttons");
+}
+
 export async function loadEntries(): Promise<void> {
   showEntriesLoading();
 
@@ -56,18 +64,12 @@ export async function loadEntries(): Promise<void> {
   }
 }
 
-// ==============================
-// INIT ENTRIES (klik na karticu)
-// ==============================
 initEntries({
   onOpenModal(entry: Entry) {
     openEntryModal(entry);
   },
 });
 
-// ==============================
-// INIT MODAL
-// ==============================
 initModal({
   onEdit(entry: Entry) {
     switchToTab("today");
@@ -84,34 +86,36 @@ initModal({
     }
 
     await loadEntries();
-    refreshHeatmap(); //  update overview
+    refreshHeatmap();
   },
 });
 
-// ==============================
-// INIT FORM
-// ==============================
 initForm({
   async onSuccess() {
-    await loadEntries(); // 🔥 refresh liste
-    refreshHeatmap(); // 🔥 refresh overview
-    switchToTab("entries"); // 🔥 vrati na listu
+    await loadEntries();
+    refreshHeatmap();
+    switchToTab("entries");
   },
 });
 
-// ==============================
-// INIT TABS
-// ==============================
 initTabs();
 
-// ==============================
-// INIT HEATMAP (OVERVIEW)
-// ==============================
+thisMonthBtn.addEventListener("click", function () {
+  state.currentView = "month";
+  thisMonthBtn.classList.add("active");
+  allEntriesBtn.classList.remove("active");
+  void loadEntries();
+});
+
+allEntriesBtn.addEventListener("click", function () {
+  state.currentView = "all";
+  allEntriesBtn.classList.add("active");
+  thisMonthBtn.classList.remove("active");
+  void loadEntries();
+});
+
 initHeatmap({
   apiUrl: API_URL,
 });
 
-// ==============================
-// INITIAL LOAD
-// ==============================
 void loadEntries();
