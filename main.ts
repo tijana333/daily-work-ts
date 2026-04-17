@@ -9,6 +9,7 @@ import {
 } from "./features/entries";
 import { initTabs, switchToTab } from "./features/tabs";
 import { initModal, openEntryModal } from "./features/modal";
+import { initHeatmap, refreshHeatmap } from "./features/heatmap";
 import { state } from "./state/state";
 
 type Entry = {
@@ -27,6 +28,17 @@ type EntriesApiData = {
 };
 
 const API_URL = "https://daily-work-backend.vercel.app/api/entries";
+
+const thisMonthBtn = document.getElementById(
+  "this-month",
+) as HTMLButtonElement | null;
+const allEntriesBtn = document.getElementById(
+  "all-entries",
+) as HTMLButtonElement | null;
+
+if (!thisMonthBtn || !allEntriesBtn) {
+  throw new Error("Missing entries filter buttons");
+}
 
 export async function loadEntries(): Promise<void> {
   showEntriesLoading();
@@ -74,15 +86,36 @@ initModal({
     }
 
     await loadEntries();
+    refreshHeatmap();
   },
 });
 
 initForm({
   async onSuccess() {
     await loadEntries();
+    refreshHeatmap();
     switchToTab("entries");
   },
 });
 
 initTabs();
+
+thisMonthBtn.addEventListener("click", function () {
+  state.currentView = "month";
+  thisMonthBtn.classList.add("active");
+  allEntriesBtn.classList.remove("active");
+  void loadEntries();
+});
+
+allEntriesBtn.addEventListener("click", function () {
+  state.currentView = "all";
+  allEntriesBtn.classList.add("active");
+  thisMonthBtn.classList.remove("active");
+  void loadEntries();
+});
+
+initHeatmap({
+  apiUrl: API_URL,
+});
+
 void loadEntries();
